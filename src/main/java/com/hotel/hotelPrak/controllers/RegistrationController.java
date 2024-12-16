@@ -20,17 +20,12 @@ import java.util.Collections;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @GetMapping("/registration")
+    private UserRepository userRepository; @Autowired
+    private PasswordEncoder passwordEncoder;@GetMapping("/registration")
     public String registrationView(Model model){
         model.addAttribute("user", new UserModel());
         return "regis";
     }
-
     @PostMapping("/registration")
     public String registrationUser(UserModel user, Model model){
         if(user.getPassword().length() < 8 || !user.getPassword().matches(".*[a-z].*") || !user.getPassword().matches(".*[@#$!?%^&+=].*")){

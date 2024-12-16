@@ -1,4 +1,4 @@
-name: Java Build and Syntax Check
+name: Java Build, Syntax, and Style Check
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Build and Syntax Check
+    name: Build, Syntax, and Style Check
     runs-on: ubuntu-latest
 
     steps:
@@ -33,5 +33,6 @@ jobs:
       - name: Build project
         run: mvn clean package -DskipTests # Для Gradle: ./gradlew build -x test
 
+      # 5. Проверка стиля кода с помощью Checkstyle
       - name: Run Checkstyle
         run: mvn checkstyle:checkstyle
