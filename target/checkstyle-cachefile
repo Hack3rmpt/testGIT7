@@ -1,0 +1,4 @@
+#Mon Dec 16 16:11:59 MSK 2024
+configuration*?=6DC992F78C2F1CA416BD4A858999B5AB8BF2A3AB
+module-resource*?\:checkstyle-suppressions.xml=56F97C62F4A09A45C1E7E9F02DD81A43E202D447
+module-resource*?\:checkstyle-xpath-suppressions.xml=519CF70E9596BEFF1F10950869A05634F46A7D2E

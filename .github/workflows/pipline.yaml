@@ -29,10 +29,10 @@ jobs:
       - name: Compile project
         run: mvn compile # Для Gradle: ./gradlew classes
 
-      # 4. Дополнительно: Сборка проекта (без тестов)
+      # 4. Сборка проекта (без тестов)
       - name: Build project
         run: mvn clean package -DskipTests # Для Gradle: ./gradlew build -x test
 
-      # 5. Проверка стиля кода с помощью Checkstyle
-      - name: Run Checkstyle
-        run: mvn checkstyle:checkstyle
+      # 5. Проверка стиля кода с Checkstyle
+      - name: Run Checkstyle (style check)
+        run: mvn checkstyle:check
