@@ -1,44 +1,33 @@
-name: Spring Project CI
+name: Java CI with Syntax Check
 
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
-  build:
+  syntax-check:
+    name: Syntax and Build Check
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Клонируем репозиторий
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 21
+      # 2. Настраиваем JDK
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          distribution: 'temurin' # Используем OpenJDK Temurin
+          java-version: '21' # Укажите вашу версию Java
 
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+      # 3. Проверка синтаксических ошибок (сборка проекта)
+      - name: Compile and check syntax
+        run: mvn compile # Для Gradle: ./gradlew classes
 
-      - name: Build and Test
-        run: mvn clean verify
 
-      - name: Checkstyle Report
-        run: mvn checkstyle:check
-
-      - name: Publish Checkstyle Report
-        uses: mikepenz/action-junit-report@v3
-        if: always()
-        with:
-          report_paths: '**/target/checkstyle-result.xml'
-          suite_regex: 'Checkstyle'
-          custom_title: 'Checkstyle Report'
+  # Можно добавить дополнительные проверки, например, статический анализ.

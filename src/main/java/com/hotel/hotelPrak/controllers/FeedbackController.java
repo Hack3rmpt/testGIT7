@@ -20,13 +20,11 @@ import java.util.UUID;
 public class FeedbackController {
     @Autowired
     public FeedbackService feedbackService;
-
     @Autowired
     public GuestService guestService;
 
     @Autowired
     public RoomService roomService;
-
     @GetMapping("/all")
     public String getAllFeedbacks(Model model) {
         model.addAttribute("feedbacks", feedbackService.findAllFeedback());
@@ -35,7 +33,6 @@ public class FeedbackController {
         model.addAttribute("rooms", roomService.findAllRooms());
         return "feedbackList";
     }
-
     @PostMapping("/add")
     public String addFeedback(@Valid @ModelAttribute("feedback") FeedbackModel feedback, BindingResult result, Model model) {
         if (result.hasErrors()) {
