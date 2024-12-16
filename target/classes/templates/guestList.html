@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Guests List</title>
+</head>
+<body style="background-color:#fadadd">
+<div th:insert="blocks/header"></div>
+<div style="margin-left: auto; margin-right: auto; width: 500px">
+    <h1>Список гостей</h1>
+    <form action="/guest/add" method="post" th:object="${guest}">
+        <input type="text" name="firstName" placeholder="Имя" th:field="*{firstName}" required>
+        <input type="text" name="lastName" placeholder="Фамилия" th:field="*{lastName}" required>
+        <input type="text" name="passportNumber" placeholder="Номер паспорта" th:field="*{passportNumber}" required>
+        <div th:if="${#fields.hasErrors('passportNumber')}" th:errors="*{passportNumber}">
+            passportNumber not < 5
+        </div>
+        <input type="text" name="phoneNumber" placeholder="Номер телефона" th:field="*{phoneNumber}" required>
+        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">
+            phoneNumber not < 6
+        </div>
+        <input type="text" name="email" placeholder="Email" th:field="*{email}">
+        <select name="roomS" th:field="*{roomS}" required>
+            <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.typeRoom + ' ' + room.descriptionRoom}"></option>
+        </select>
+
+        <button type="submit" formmethod="post">Добавить гостя</button>
+    </form>
+
+    <h1>Поиск по имени и фамилии:</h1>
+    <form action="/guest/search" method="get">
+        <input type="text" name="firstName" placeholder="Имя">
+        <input type="text" name="lastName" placeholder="Фамилия">
+        <button type="submit" formmethod="get">Поиск</button>
+    </form>
+
+    <h1>Все гости:</h1>
+    <ul>
+        <th:block th:each="guest: ${guests}">
+            <li>
+                <span th:text="${guest.firstName} + ' ' + ${guest.lastName} + ' ' + ${guest.passportNumber} + ' ' + ${guest.phoneNumber} + ' ' + ${guest.email} + ' ' + ${guest.roomS.typeRoom} + ' ' + ${guest.roomS.descriptionRoom}"></span>
+                <form action="/guest/update" method="post" style="display:inline;" th:object="${guest}">
+                    <input type="hidden" name="id" th:value="${guest.id}">
+                    <input type="text" name="firstName" th:value="${guest.firstName}" placeholder="Имя" required>
+                    <input type="text" name="lastName" th:value="${guest.lastName}" placeholder="Фамилия" required>
+                    <input type="text" name="passportNumber" th:value="${guest.passportNumber}" placeholder="Номер паспорта" required>
+                    <input type="text" name="phoneNumber" th:value="${guest.phoneNumber}" placeholder="Номер телефона" required>
+                    <input type="text" name="email" th:value="${guest.email}" placeholder="Email">
+                    <select name="roomS" th:field="*{roomS}" required>
+                        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.typeRoom + ' ' + room.descriptionRoom}"></option>
+                    </select>
+                    <button type="submit" formmethod="post">Обновить</button>
+                </form>
+                <form action="/guest/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${guest.id}">
+                    <button type="submit" formmethod="post">Удалить</button>
+                </form>
+            </li>
+        </th:block>
+    </ul>
+</div>
+</body>
+</html>

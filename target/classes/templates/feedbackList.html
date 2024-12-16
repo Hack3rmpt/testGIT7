@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback List</title>
+</head>
+<body style="background-color:#fadadd">
+<div th:insert="blocks/header"></div>
+
+<div style="margin-left: auto; margin-right: auto; width: 500px">
+    <h1 style="margin-left: 25%;">Список отзывов</h1>
+    <form action="/feedback/add" method="post" th:object="${feedback}">
+        <select name="guest" th:field="*{guest}" required>
+            <option th:each="guest : ${guests}" th:value="${guest.id}" th:text="${guest.firstName + ' ' + guest.lastName}"></option>
+        </select>
+        <select name="room" th:field="*{room}" required>
+            <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.typeRoom + ' ' + room.descriptionRoom}"></option>
+        </select>
+        <select name="evaluation" th:field="*{evaluation}" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <input type="text" name="comment" placeholder="Комментарий" th:field="*{comment}" required>
+        <div th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">
+            Comment Error
+        </div>
+        <input type="text" name="picture" placeholder="Путь к картинке" th:field="*{picture}">
+
+        <button type="submit" formmethod="post">Добавить отзыв</button>
+    </form>
+
+    <h1 style="margin-left: 25%;">Все отзывы:</h1>
+    <ul>
+        <th:block th:each="feedback: ${feedbacks}">
+            <li>
+                <span th:text="${feedback.guest.firstName + ' ' + feedback.guest.lastName} + ' ' + ${feedback.room.typeRoom + ' ' + feedback.room.descriptionRoom} + ' ' + ${feedback.evaluation} + ' ' + ${feedback.comment} + ' ' + ${feedback.picture}"></span>
+                <form action="/feedback/update" method="post" style="display:inline;" th:object="${feedback}">
+                    <input type="hidden" name="id" th:value="${feedback.id}">
+                    <select name="guest" th:field="*{guest}" required>
+                        <option th:each="guest : ${guests}" th:value="${guest.id}" th:text="${guest.firstName + ' ' + guest.lastName}"></option>
+                    </select>
+                    <select name="room" th:field="*{room}" required>
+                        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.typeRoom + ' ' + room.descriptionRoom}"></option>
+                    </select>
+                    <select name="evaluation" th:value="${feedback.evaluation}" required>
+                        <option th:selected="${feedback.evaluation == 1}" value="1">1</option>
+                        <option th:selected="${feedback.evaluation == 2}" value="2">2</option>
+                        <option th:selected="${feedback.evaluation == 3}" value="3">3</option>
+                        <option th:selected="${feedback.evaluation == 4}" value="4">4</option>
+                        <option th:selected="${feedback.evaluation == 5}" value="5">5</option>
+                    </select>
+                    <input type="text" name="comment" th:value="${feedback.comment}" placeholder="Комментарий" required>
+                    <div th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">
+                        Comment Error
+                    </div>
+                    <input type="text" name="picture" th:value="${feedback.picture}" placeholder="Путь к картинке">
+                    <button type="submit" formmethod="post">Обновить</button>
+                </form>
+                <form action="/feedback/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${feedback.id}">
+                    <button type="submit" formmethod="post">Удалить</button>
+                </form>
+            </li>
+        </th:block>
+    </ul>
+</div>
+</body>
+</html>

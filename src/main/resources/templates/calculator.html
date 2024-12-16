@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>$Calc$</title>
+</head>
+<body style="background-color:#fadadd">
+<div th:insert="blocks/header"></div>
+<div style="margin-left: auto; margin-right: auto; width: 500px">
+
+<h1>Калькулятор</h1>
+<form action="/calculate" method="get">
+    <input type="number" name="operand1" placeholder="Первое число" required>
+    <select name="operator">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+
+    <input type="number" name="operand2" placeholder="Первое число" required>
+    <input type="submit" formmethod="post" value="Посчтиать">
+</form>
+</div>
+</body>
+</html>

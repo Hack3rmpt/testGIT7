@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Авторизация</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fadadd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #333;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #e5929a;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #e5929a;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #e5929a;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: red;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .form-container p {
+      text-align: center;
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+<div class="form-container">
+  <h1>Авторизация</h1>
+
+  <!-- Ошибки -->
+  <div th:if="${param.error}" class="error-message">
+    Неверное имя пользователя или пароль.
+  </div>
+
+  <form th:action="@{/login}" method="post">
+    <label>Логин:</label>
+    <input type="text" name="username"/>
+
+    <label>Пароль:</label>
+    <input type="password" name="password"/>
+
+    <input type="submit" value="Авторизация">
+  </form>
+
+  <a href="/registration">Регистрация</a>
+</div>
+</body>
+</html>
