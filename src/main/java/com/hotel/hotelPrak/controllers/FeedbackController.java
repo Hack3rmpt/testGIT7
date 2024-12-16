@@ -28,12 +28,10 @@ public class FeedbackController {
     @GetMapping("/all")
     public String getAllFeedbacks(Model model) {
         model.addAttribute("feedbacks", feedbackService.findAllFeedback());
-        model.addAttribute("feedback", new FeedbackModel());
-        model.addAttribute("guests", guestService.findAllGuests());
+        model.addAttribute("feedback", new FeedbackModel());model.addAttribute("guests", guestService.findAllGuests());
         model.addAttribute("rooms", roomService.findAllRooms());
         return "feedbackList";
-    }
-    @PostMapping("/add")
+    }@PostMapping("/add")
     public String addFeedback(@Valid @ModelAttribute("feedback") FeedbackModel feedback, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("feedbacks", feedbackService.findAllFeedback());
