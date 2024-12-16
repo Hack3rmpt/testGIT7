@@ -1,16 +1,16 @@
-name: Java CI with Syntax Check
+name: Java Build and Syntax Check
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
-  syntax-check:
-    name: Syntax and Build Check
+  build:
+    name: Build and Syntax Check
     runs-on: ubuntu-latest
 
     steps:
@@ -25,9 +25,10 @@ jobs:
           distribution: 'temurin' # Используем OpenJDK Temurin
           java-version: '21' # Укажите вашу версию Java
 
-      # 3. Проверка синтаксических ошибок (сборка проекта)
-      - name: Compile and check syntax
+      # 3. Проверка синтаксиса (сборка проекта)
+      - name: Compile project
         run: mvn compile # Для Gradle: ./gradlew classes
 
-
-  # Можно добавить дополнительные проверки, например, статический анализ.
+      # 4. Дополнительно: Сборка проекта (без тестов)
+      - name: Build project
+        run: mvn clean package -DskipTests # Для Gradle: ./gradlew build -x test
