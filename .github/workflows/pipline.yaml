@@ -32,3 +32,6 @@ jobs:
       # 4. Дополнительно: Сборка проекта (без тестов)
       - name: Build project
         run: mvn clean package -DskipTests # Для Gradle: ./gradlew build -x test
+
+      - name: Run Checkstyle
+        run: mvn checkstyle:checkstyle
