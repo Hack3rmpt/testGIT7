@@ -1,0 +1,44 @@
+name: Spring Project CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build and Test
+        run: mvn clean verify
+
+      - name: Checkstyle Report
+        run: mvn checkstyle:check
+
+      - name: Publish Checkstyle Report
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        with:
+          report_paths: '**/target/checkstyle-result.xml'
+          suite_regex: 'Checkstyle'
+          custom_title: 'Checkstyle Report'
