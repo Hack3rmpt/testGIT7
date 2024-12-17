@@ -33,6 +33,12 @@ jobs:
       - name: Build project
         run: mvn clean package -DskipTests # Для Gradle: ./gradlew build -x test
 
-      # 5. Проверка кода с SpotBugs
-      - name: Run SpotBugs
-        run: mvn spotbugs:check
+      # 5. Установка Semgrep
+      - name: Install Semgrep
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install semgrep
+
+      # 6. Запуск Semgrep для анализа кода
+      - name: Run Semgrep
+        run: semgrep --config=p/security-audit .
