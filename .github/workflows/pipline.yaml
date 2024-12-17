@@ -33,6 +33,6 @@ jobs:
       - name: Build project
         run: mvn clean package -DskipTests # Для Gradle: ./gradlew build -x test
 
-      # 5. Проверка стиля кода с Checkstyle
-      - name: Run Checkstyle (style check)
-        run: mvn checkstyle:check
+      # 5. Проверка кода с SpotBugs
+      - name: Run SpotBugs
+        run: mvn spotbugs:check
